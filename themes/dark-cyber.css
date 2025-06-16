@@ -1,24 +1,24 @@
 window {
-    background-color: rgba(250, 240, 255, 0.0);
+    background-color: rgba(10,10,20, 0.0);
 }
 button {
-    color: #ce7fa4;
-    background: rgba(255, 240, 245, 0.85);
-    border-radius: 12px;
+    color: #00ffe7;
+    background: rgba(0,10,20, 0.85);
+    border-radius: 6px;
     padding: 10px;
-    border: 1px solid #ce7fa4;
+    border: 1px solid #00ffe7;
     transition: 100ms ease-in-out;
 }
 button label {
-    color: #ce7fa4;
-    font-family: "Comic Sans MS", cursive, sans-serif;
+    color: #00ffe7;
+    font-family: monospace;
     font-size: 16px;
 }
 .pressed {
-    background: #f8c8dc;
+    background: #00bfa6;
     font-weight: bold;
 }
 .unpressed {
-    background: rgba(255, 240, 245, 0.85);
+    background: rgba(0,10,20, 0.85);
 }
 
