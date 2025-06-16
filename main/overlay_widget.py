@@ -3,13 +3,13 @@ import os
 import gi
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gdk, GLib
+from config import load_config
 
 CONFIG_DIR = os.path.join(os.path.expanduser("~"), ".config", "keyboard-widget")
 STYLE_PATH = os.path.join(CONFIG_DIR, "themes","default.css")
 CONFIG_PATH = os.path.join(CONFIG_DIR, "config.json")
 
 os.makedirs(CONFIG_DIR, exist_ok=True)
-
 
 class KeystrokeOverlay(Gtk.Window):
     def __init__(self):
@@ -21,6 +21,10 @@ class KeystrokeOverlay(Gtk.Window):
         self.set_can_focus(False)
 
         self.key_buttons = {}
+        config = load_config()
+        self.current_theme = config.get("theme", "default")
+        self.apply_theme(self.current_theme)
+        self.start_theme_watcher(self.current_theme)
         self.set_css()
 
         self.vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
@@ -108,8 +112,33 @@ class KeystrokeOverlay(Gtk.Window):
             Gdk.Display.get_default(), provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
-        print("No custom theme found. You can create one at ~/.config/keyboard-widget/default.css")
+        print("No custom theme found. You can create one at ~/.config/keyboard-widget/themes/")
 
+    def apply_theme(self, theme_name):
+        css_provider = Gtk.CssProvider()
+        theme_path = os.path.expanduser(f"~/.config/keyboard-widget/themes/{theme_name}.css")
+        if os.path.exists(theme_path):
+            css_provider.load_from_path(theme_path)
+            Gtk.StyleContext.add_provider_for_display(
+                Gdk.Display.get_default(),
+                css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
+            print(f"🎨 Theme '{theme_name}' applied!")
+        else:
+            print(f"⚠️ Theme '{theme_name}' not found.")
+
+    def start_theme_watcher(self, initial_theme):
+        def check_theme_change():
+            config = load_config()
+            new_theme = config.get("theme", "default")
+            if new_theme != self.current_theme:
+                print(f"🔄 Theme changed to: {new_theme}")
+                self.current_theme = new_theme
+                self.apply_theme(new_theme)
+            return True
+
+        GLib.timeout_add_seconds(2, check_theme_change)
 
     def update_keys(self, keys):
         special_chars = {

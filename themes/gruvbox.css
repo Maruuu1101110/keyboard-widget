@@ -1,0 +1,24 @@
+window {
+    background-color: rgba(29, 32, 33, 0.0);
+}
+button {
+    color: #ebdbb2;
+    background: rgba(40, 40, 40, 0.9);
+    border-radius: 6px;
+    padding: 10px;
+    border: 1px solid #fabd2f;
+    transition: 100ms ease-in-out;
+}
+button label {
+    color: #d79921;
+    font-family: monospace;
+    font-size: 16px;
+}
+.pressed {
+    background: #98971a;
+    font-weight: bold;
+}
+.unpressed {
+    background: rgba(40, 40, 40, 0.9);
+}
+

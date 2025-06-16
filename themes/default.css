@@ -1,7 +1,6 @@
 window {
     background-color: rgba(30,30,46, 0.0);
 }
-
 button {
     color: #7493D4;
     background: rgba(30,30,56, 0.85);
@@ -10,19 +9,15 @@ button {
     border: 1px solid #7493D4;
     transition: 100ms ease-in-out;
 }
-
 button label {
     color: #7493D4;
     font-family: monospace;
     font-size: 16px;
 }
-
 .pressed {
     background: #647fba;
     font-weight: bold;
 }
-
 .unpressed {
     background: rgba(30,30,56, 0.85);
 }
-
