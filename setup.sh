@@ -60,8 +60,22 @@ install_with_venv() {
 }
 
 # THEME PLACEMENT
-mkdir ~/.config/keyboard-widget
-cp -r themes ~/.config/keyboard-widget/themes
+CONFIG_DIR="$HOME/.config/keyboard-widget"
+BACKUP_DIR="$HOME/.config/keyboard-widget-backup"
+
+echo "📦 Backing up: $CONFIG_DIR → $BACKUP_DIR"
+
+if [ -d "$CONFIG_DIR" ]; then
+  cp -r "$CONFIG_DIR" "$BACKUP_DIR"
+  echo "✅ Backup complete."
+fi
+
+echo "🧼 Resetting theme directory..."
+rm -rf "$CONFIG_DIR"
+mkdir -p "$CONFIG_DIR/themes"
+cp -r themes/* "$CONFIG_DIR/themes/"
+
+echo "🎨 Themes installed to $CONFIG_DIR/themes"
 
 # MAIN LOGIC
 DISTRO=$(detect_distro)
@@ -93,6 +107,5 @@ else
     exit 1
   }
 fi
-
 
 echo "🚀 Done! You can now launch the widget using: run.sh "

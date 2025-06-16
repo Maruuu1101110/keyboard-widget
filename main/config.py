@@ -13,15 +13,12 @@ def load_config():
             config = json.load(f)
 
     updated = False
-    if "device_path" not in config:
-        config["device_path"] = ""
-        updated = True
     if "theme" not in config:
         config["theme"] = "default"
         updated = True
     if updated:
         save_config(config)
-        
+
     return config
 
 def save_config(config):
