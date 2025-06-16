@@ -1,7 +1,15 @@
 # overlay_widget.py
+import os
 import gi
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gdk, GLib
+
+CONFIG_DIR = os.path.join(os.path.expanduser("~"), ".config", "keyboard-widget")
+STYLE_PATH = os.path.join(CONFIG_DIR, "themes","default.css")
+CONFIG_PATH = os.path.join(CONFIG_DIR, "config.json")
+
+os.makedirs(CONFIG_DIR, exist_ok=True)
+
 
 class KeystrokeOverlay(Gtk.Window):
     def __init__(self):
@@ -59,40 +67,48 @@ class KeystrokeOverlay(Gtk.Window):
         self.key_buttons[key.upper()] = btn
         return btn
 
-    def set_css(self):
+    def set_css(self, theme_path=None):
         provider = Gtk.CssProvider()
-        provider.load_from_data(b"""
-            window {
-                background-color: rgba(30,30,46, 0.0);
-            }
-            button {
-                color: #7493D4;
-                background: rgba(30,30,56, 0.859);
-                border-radius: 6px;
-                padding: 10px;
-                border: 1px solid #7493D4;
-                transition: 100ms ease-in-out;
-            }
+        if theme_path and os.path.exists(theme_path):
+            with open(theme_path, "rb") as f:
+                provider.load_from_data(f.read())
+        else:
+            provider.load_from_data(b""" 
+                window {
+                    background-color: rgba(30,30,46, 0.0);
+                }
 
-            button label {
-                color: #7493D4;
-                font-family: monospace;
-                font-size: 16px;
-            }
+                button {
+                    color: #7493D4;
+                    background: rgba(30,30,56, 0.85);
+                    border-radius: 6px;
+                    padding: 10px;
+                    border: 1px solid #7493D4;
+                    transition: 100ms ease-in-out;
+                }
 
-            .pressed {
-                background: #647fba;
-                font-weight: bold;
-            }
+                button label {
+                    color: #7493D4;
+                    font-family: monospace;
+                    font-size: 16px;
+                }
 
-            .unpressed {
-                background: rgba(30,30,56, 0.859);
-            }
-        """)
+                .pressed {
+                    background: #647fba;
+                    font-weight: bold;
+                }
+
+                .unpressed {
+                    background: rgba(30,30,56, 0.85);
+                }
+
+             """)
+
         Gtk.StyleContext.add_provider_for_display(
             Gdk.Display.get_default(), provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )  
+        )
+        print("No custom theme found. You can create one at ~/.config/keyboard-widget/default.css")
 
 
     def update_keys(self, keys):

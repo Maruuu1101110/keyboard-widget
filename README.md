@@ -1,4 +1,4 @@
-# Keystrokes CP
+# Keyboard Overlay
 
 A customizable keystroke overlay widget for Linux that displays your keyboard inputs in real-time. Built with GTK4 and Python.
 
@@ -28,27 +28,46 @@ cd keyboard-widget
 
 2. Install dependencies:
 ```bash
-pip install -r requirements.txt
+sh setup.sh
 ```
-
-3. Install the package:
+3. Run widget:
 ```bash
-pip install -e .
+sh run.sh
 ```
-
 ## Usage
 
-Run the application with:
-
+You can run the widget via:
 ```bash
 python main.py
 ```
 
-By default, the application looks for a keyboard device at `/dev/input/by-id/keyboard-kbd`. You can modify this path in the source code to match your keyboard device.
+or 
+
+```bash
+sh run.sh
+```
+
+You can also bind it to your systems config, Hyprland for example:
+```bash
+bind = $mainMod, K, exec, /path/to/run.sh
+```
 
 ## Configuration
 
-The overlay widget can be customized by modifying the parameters in `overlay_widget.py`.
+### Themes
+
+To customize the appearance, open any `.css` file in:
+`~/.config/keyboard-widget/themes`, you can even add your own theme.
+
+### Device Configuration
+If the `run.sh` can't detect your device: 
+
+You can check for it by yourself:
+```bash
+ls -l /dev/input/by-id
+```
+and check for your keyboard and edit this line `"device_path": "your/device/path"` in `~/.config/keyboard/config.json`.
+
 
 ## Contributing
 

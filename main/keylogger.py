@@ -57,8 +57,3 @@ class KeyListener:
             "EQUAL": "=",
             "GRAVE": "`"
         }.get(key, key)
-
-
-
-        
-
