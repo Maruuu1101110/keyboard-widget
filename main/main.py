@@ -63,7 +63,6 @@ def choose_keyboard_device():
 
 if __name__ == "__main__":
     config = load_config()
-    # 🔌 Check or choose device path
     device_path = config.get("device_path")
     if not device_path or not os.path.exists(os.path.realpath(device_path)):
         print("⚠️  Device path missing or invalid. Starting device selector...")
